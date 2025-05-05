@@ -1,13 +1,9 @@
-interface Todo {
-  title: string
-  description: string
-  completed: boolean
-}
+import { Component } from "react"
 
-type MyOmit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>
-
-type TodoPreview = MyOmit<Todo, 'description' | 'title'>
-
-const todo: TodoPreview = {
-  completed: false,
+export default function reactMemo () {
+  return(
+    <div>
+      Привет деплой
+    </div>
+  )
 }
