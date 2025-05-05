@@ -1,7 +1,7 @@
 export default function reactMemo () {
   return(
     <div>
-      Привет деплой
+      Привет деплой КАК дела?
     </div>
   )
 }
