@@ -2,6 +2,9 @@
   "name": "testnextjs",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "vscode": "^1.80.0"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
