@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import TextAreaCell from './TextAreaCell';
 import { Button } from "@/components/ui/button";
-import { Select } from "@/components/ui/select";
 
 export default function TimeTable({ data, date }) {
   const router = useRouter();
