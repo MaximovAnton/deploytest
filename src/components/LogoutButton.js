@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { supabase } from '@/lib/supabaseClient';
+import { Button } from "@/components/ui/button";
 
 export default function LogoutButton() {
   const router = useRouter();
@@ -10,8 +11,8 @@ export default function LogoutButton() {
   };
 
   return (
-    <button onClick={handleLogout} className="logout">
-      🚪 Выйти
-    </button>
+    <Button variant="custom" onClick={handleLogout} className="logout">
+      Выйти
+    </Button>
   );
 }

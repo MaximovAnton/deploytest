@@ -1,15 +1,13 @@
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!router.isReady) return;
-    const today = new Date().toISOString().split('T')[0];
-    console.log("🔁 Переход на дату:", today);
+    const today = new Date().toISOString().split('T')[0]; // 📆 формат YYYY-MM-DD
     router.replace(`/${today}`);
-  }, [router.isReady]);
+  }, []);
 
-  return <p>🔄 Загрузка страницы...</p>;
+  return <p>Загрузка...</p>;
 }

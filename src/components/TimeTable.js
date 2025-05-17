@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import TextAreaCell from './TextAreaCell';
+import { Button } from "@/components/ui/button";
+import { Select } from "@/components/ui/select";
 
 export default function TimeTable({ data, date }) {
   const router = useRouter();
@@ -11,6 +13,7 @@ export default function TimeTable({ data, date }) {
   const [syncTrigger, setSyncTrigger] = useState(0);
 
   const formatDate = (d) =>
+    
     new Date(d).toLocaleDateString('ru-RU', {
       day: 'numeric',
       month: 'long',
@@ -178,7 +181,7 @@ export default function TimeTable({ data, date }) {
   }
 
   const emptySchedule = {};
-  for (let hour = 8; hour <= 22; hour++) {
+  for (let hour = 9; hour <= 23; hour += 2) {
     const time = hour.toString().padStart(2, '0') + ':00';
     emptySchedule[time] = Array(clonedColumns.length).fill('');
   }
@@ -200,13 +203,18 @@ export default function TimeTable({ data, date }) {
 };
 
 
-  const times = Array.from({ length: 15 }, (_, i) => (i + 8).toString().padStart(2, '0') + ':00');
-  const colorOptions = ["", "#f8d7da", "#d1ecf1", "#d4edda", "#fff3cd", "#f0f0f0"];
+  const times = Array.from({ length: 5 }, (_, i) => {
+  const start = 9 + i * 2;
+  const end = start + 2;
+  return `${start.toString().padStart(2, '0')}:00 ${end.toString().padStart(2, '0')}:00`;
+});
 
+  const colorOptions = ["", "#f88f97", "#80cedb", "#57e077",];
+  
   return (
     <div>
-      <button onClick={handleAddColumn}>➕ Добавить столбец</button>
-      <button onClick={handleCreateDate} style={{ marginLeft: '10px' }}>📅 Создать дату</button>
+      <Button variant="custom" onClick={handleAddColumn}>➕ Добавить столбец</Button>
+      <Button variant="custom" onClick={handleCreateDate} style={{ marginLeft: '10px' }}>📅 Создать дату</Button>
       <div className="table-wrapper">
         <table>
           <thead>
@@ -220,27 +228,25 @@ export default function TimeTable({ data, date }) {
                     justifyContent: 'center',
                     position: 'relative',
                     width: '100%',
-                    padding: '4px 28px 4px 8px'
+                    padding: '4px 8px 4px 8px'
                   }}>
-                    <span style={{ textAlign: 'center', flex: 1 }}>{columns[colIdx]}</span>
-                    <button
+                    {columns[colIdx]}
+                    <Button
+                      variant="custom"
                       onClick={() => handleDeleteColumn(colIdx)}
                       style={{
                         position: 'absolute',
-                        right: '4px',
-                        top: '50%',
+                        right: '0px',
+                        top: '51%',
                         transform: 'translateY(-50%)',
-                        background: 'white',
                         border: 'none',
                         fontSize: '12px',
                         cursor: 'pointer',
-                        padding: '2px 4px',
-                        lineHeight: '1',
-                        color: 'black'
+                        padding: '2px 5px',
                       }}
                     >
                       ✕
-                    </button>
+                    </Button>
                   </div>
                 </th>
               ))}
@@ -249,7 +255,7 @@ export default function TimeTable({ data, date }) {
           <tbody>
             {times.map((time) => (
               <tr key={time}>
-                <td>{time}</td>
+                <td style={{ fontWeight: 'bold', textAlign: 'center' }}>{time}</td>
                 {columns.map((_, colIdx) => {
                   const bgColor = colors[time]?.[colIdx] || '';
                   return (
@@ -261,24 +267,14 @@ export default function TimeTable({ data, date }) {
                         syncTrigger={syncTrigger}
                       />
                       <select
+                        className='glass-select'
                         value={bgColor}
                         onChange={(e) => handleColorChange(time, colIdx, e.target.value)}
-                        style={{
-                          position: 'absolute',
-                          top: '2px',
-                          right: '2px',
-                          width: '22px',
-                          height: '22px',
-                          padding: 0,
-                          border: '1px solid #ccc',
-                          borderRadius: '4px',
-                          backgroundColor: bgColor || '#fff',
-                        }}
                       >
                         <option value="">🎨</option>
                         {colorOptions.map((c) => (
                           <option key={c} value={c} style={{ backgroundColor: c }}>
-                            {c || "Нет"}
+                            
                           </option>
                         ))}
                       </select>
@@ -290,15 +286,24 @@ export default function TimeTable({ data, date }) {
           </tbody>
         </table>
       </div>
-      <div style={{ marginTop: '20px' }}>
-        <h4>📆 Перейти к дате:</h4>
+      <div>
         <div className="dataBlock">
-          {existingDates.map((d) => (
-            <button className="buttonDate" key={d} onClick={() => router.push('/' + d)} style={{ marginRight: '10px' }}>
-              {formatDate(d)}
-            </button>
-          ))}
-        </div>
+  {existingDates.map((d) => {
+    const isActive = d === date;
+
+    return (
+      <Button
+        variant={isActive ? "customactive" : "custom"} // или "custom" если у вас свой стиль
+        className={`buttonDate ${isActive ? "active-date" : ""}`}
+        key={d}
+        onClick={() => router.push('/' + d)}
+        style={{ marginRight: '10px' }}
+      >
+        {formatDate(d)}
+      </Button>
+    );
+  })}
+</div>
       </div>
     </div>
   );
