@@ -1,0 +1,9 @@
+{
+  "cron": [
+    {
+      "path": "/api/backup",
+      "schedule": "0 5 * * *",
+      "timezone": "Europe/Moscow"
+    }
+  ]
+}

@@ -10,7 +10,19 @@ body {
   background-color: #55445d;
   color: #222;
 }
-
+.header{
+  display: flex;
+  justify-content: space-between;
+}
+.logout{
+  margin: 0 30px;
+}
+.container{
+  width: 100vw;
+}
+.date{
+  margin: 0 auto;
+}
 /* --- ОБЁРТКА ДЛЯ ГОРИЗОНТАЛЬНОЙ ПРОКРУТКИ --- */
 .table-wrapper {
   overflow-x: auto;

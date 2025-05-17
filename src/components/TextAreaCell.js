@@ -12,15 +12,15 @@ export default function TextAreaCell({ value, onChange, color, syncTrigger }) {
 
     const allTextareas = Array.from(tr.querySelectorAll('textarea'));
 
-    // Шаг 1 — сброс высоты, чтобы scrollHeight был реальным
+    // Сброс высоты
     allTextareas.forEach((t) => {
       t.style.height = 'auto';
     });
 
-    // Шаг 2 — найти максимальный scrollHeight
+    // Максимальная высота по всем ячейкам строки
     const maxHeight = Math.max(...allTextareas.map((t) => t.scrollHeight));
-    console.log(maxHeight);
-    // Шаг 3 — задать одинаковую высоту
+
+    // Установка одинаковой высоты
     allTextareas.forEach((t) => {
       t.style.height = maxHeight + 'px';
     });
@@ -48,7 +48,16 @@ export default function TextAreaCell({ value, onChange, color, syncTrigger }) {
       value={value}
       onInput={handleInput}
       style={{
+        width: '100%',
+        border: 'none',
+        fontSize: '14px',
+        fontFamily: 'inherit',
+        resize: 'none',
+        overflow: 'hidden',
+        height: '100%',
+        boxSizing: 'border-box',
         backgroundColor: color || 'white',
+        padding: '5px',
       }}
     />
   );

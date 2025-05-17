@@ -1,14 +1,28 @@
-import fs from 'fs';
-import path from 'path';
+import { supabase } from '@/lib/supabaseClient';
 
-export default function handler(req, res) {
-  const { date } = req.query;
-  const filePath = path.join(process.cwd(), 'data', 'schedule.json');
 
-  if (!fs.existsSync(filePath)) {
-    return res.status(200).json({});
+export default async function handler(req, res) {
+  try {
+    const { date } = req.query;
+
+    const { data, error } = await supabase
+      .from('schedules')
+      .select()
+      .eq('date', date)
+      .single();
+
+    if (error || !data) {
+      console.log("🔵 Fetched from Supabase:", data);
+      return res.status(200).json({ columns: [], schedule: {}, colors: {} });
+    }
+console.log("🔵 Fetched from Supabase:", data);
+    res.status(200).json({
+      columns: data.columns || [],
+      schedule: data.schedule || {},
+      colors: data.colors || {},
+    });
+  } catch (err) {
+    console.error("❌ Uncaught error:", err);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
-
-  const json = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-  res.status(200).json(json[date] || { columns: [], schedule: {}, colors: {} });
 }
