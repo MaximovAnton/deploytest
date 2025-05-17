@@ -9,7 +9,6 @@ export default function TimeTable({ data, date }) {
   const [colors, setColors] = useState({});
   const [existingDates, setExistingDates] = useState([]);
   const [syncTrigger, setSyncTrigger] = useState(0);
-  const tdRef = useRef();
 
   const formatDate = (d) =>
   new Date(d).toLocaleDateString('ru-RU', {

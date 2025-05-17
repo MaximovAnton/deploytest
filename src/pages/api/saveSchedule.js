@@ -10,7 +10,7 @@ export default function handler(req, res) {
     try {
       allData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
     } catch (err) {
-      allData = {};
+      allData = {err};
     }
   }
 

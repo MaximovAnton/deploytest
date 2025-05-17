@@ -31,13 +31,6 @@ export default function SchedulePage() {
 
   if (!isLoaded) return <p>Загрузка...</p>;
 
-  const formatDate = (d) =>
-  new Date(d).toLocaleDateString('ru-RU', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
-
   return (
     <div>
       <h1>{date}</h1>
