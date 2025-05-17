@@ -5,7 +5,6 @@ import TimeTable from '../components/TimeTable';
 export default function SchedulePage() {
   const router = useRouter();
   const { date } = router.query;
-
   const [data, setData] = useState({ columns: [], schedule: {}, colors: {} });
   const [isLoaded, setIsLoaded] = useState(false);
 
