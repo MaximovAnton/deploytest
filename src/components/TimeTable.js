@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import TextAreaCell from './TextAreaCell';
 
@@ -145,8 +145,6 @@ export default function TimeTable({ data, date }) {
     router.push('/' + newDate);
   });
 };
-
-
 
   const times = Array.from({ length: 15 }, (_, i) => (i + 8).toString().padStart(2, '0') + ':00');
   const colorOptions = ["", "#f8d7da", "#d1ecf1", "#d4edda", "#fff3cd", "#f0f0f0"];
