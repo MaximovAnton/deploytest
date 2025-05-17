@@ -10,7 +10,6 @@ export default function SchedulePage() {
 
   useEffect(() => {
     if (!date) return;
-
     setIsLoaded(false);
     fetch(`/api/loadSchedule?date=${date}`)
       .then(res => res.json())
