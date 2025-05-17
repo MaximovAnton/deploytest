@@ -3,11 +3,13 @@ import { useEffect, useState } from 'react';
 import TimeTable from '../components/TimeTable';
 import { useAuthRedirect } from '@/hooks/useAuthRedirect';
 import LogoutButton from '../components/LogoutButton';
+import * as XLSX from 'xlsx';
+import { Button } from "@/components/ui/button";
 
 export default function SchedulePage() {
   const router = useRouter();
   const { date } = router.query;
-  const { loading: authLoading } = useAuthRedirect(); // ⬅️ авторизация
+  const { loading: authLoading } = useAuthRedirect(); // авторизация
 
   const [data, setData] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -50,6 +52,30 @@ export default function SchedulePage() {
     }
   };
 
+ const handleDownloadXLSX = async () => {
+    const res = await fetch('/api/loadAllSchedules');
+    const allData = await res.json();
+
+    const wb = XLSX.utils.book_new();
+
+    Object.entries(allData)
+      .sort(([a], [b]) => new Date(a) - new Date(b)) // СОРТИРУЕМ ДАТЫ ПО ВРЕМЕНИ
+      .forEach(([dateKey, scheduleArray]) => {
+        const ws = XLSX.utils.json_to_sheet(scheduleArray);
+        XLSX.utils.book_append_sheet(wb, ws, dateKey.replace(/\s/g, '_'));
+      });
+
+    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([wbout], { type: 'application/octet-stream' });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `расписание.xlsx`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   if (authLoading || !isLoaded) return <p>Загрузка...</p>;
   if (!data) return <p>❌ Дата «{date}» не найдена.</p>;
 
@@ -58,6 +84,7 @@ export default function SchedulePage() {
       <div className="header">
         <h1 className="date">{formatDate(date)}</h1>
         <LogoutButton />
+        <Button variant="custom" onClick={handleDownloadXLSX}>⬇️XLSX</Button>
       </div>
       <TimeTable key={date} data={data} date={date} />
     </div>
