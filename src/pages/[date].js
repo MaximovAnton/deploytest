@@ -82,9 +82,12 @@ export default function SchedulePage() {
   return (
     <div className="container">
       <div className="header">
+        <div></div>
         <h1 className="date">{formatDate(date)}</h1>
-        <LogoutButton />
-        <Button variant="custom" onClick={handleDownloadXLSX}>⬇️XLSX</Button>
+        <div>
+          <LogoutButton />
+          <Button variant="custom" onClick={handleDownloadXLSX}>⬇️XLSX</Button>
+        </div>
       </div>
       <TimeTable key={date} data={data} date={date} />
     </div>
